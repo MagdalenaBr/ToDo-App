@@ -4,17 +4,31 @@ export default function App() {
 	const [todo, setTodo] = useState("");
 	const [todoArr, setTodoArr] = useState([]);
 
-	function handleTodoArr(newTodo) {
-		setTodoArr(todoArr => [newTodo, ...todoArr]);
+	function handleTodoArr(item) {
+		setTodoArr(todoArr => [item, ...todoArr]);
 	}
+
 	function handleAddTodo(e) {
+		const todoItem = {
+			todo,
+			select: false,
+		};
 		e.preventDefault();
 		if (!todo) return;
-		handleTodoArr(todo);
+		handleTodoArr(todoItem);
 		setTodo("");
 	}
+
 	function handleDeleteItem(index) {
 		setTodoArr(todoArr => todoArr.filter((_, i) => i !== index));
+	}
+
+	function handleCheck(index) {
+		setTodoArr(todoArr =>
+			todoArr.map((item, i) =>
+				i === index ? { ...item, select: !item.select } : item
+			)
+		);
 	}
 
 	return (
@@ -25,7 +39,11 @@ export default function App() {
 				onSetTodo={setTodo}
 				handleAddTodo={handleAddTodo}
 			/>
-			<ToDoList todoArr={todoArr} onDeleteItem={handleDeleteItem} />
+			<ToDoList
+				todoArr={todoArr}
+				onDeleteItem={handleDeleteItem}
+				onCheck={handleCheck}
+			/>
 			<SortPanel />
 		</div>
 	);
@@ -52,7 +70,6 @@ function Button({ secondButtonClass, handleClick }) {
 function AddNewToDo({ todo, onSetTodo, handleAddTodo }) {
 	return (
 		<form className='new-todo' onSubmit={handleAddTodo}>
-			{/* <button className='add-new-todo-button'></button> */}
 			<Button secondButtonClass={"add-new-todo-button"} />
 			<input
 				className='new-todo-input'
@@ -64,7 +81,7 @@ function AddNewToDo({ todo, onSetTodo, handleAddTodo }) {
 	);
 }
 
-function ToDoList({ todoArr, onDeleteItem }) {
+function ToDoList({ todoArr, onDeleteItem, onCheck }) {
 	return (
 		<div className='todo-container'>
 			{todoArr.map((todoItem, i) => (
@@ -73,37 +90,30 @@ function ToDoList({ todoArr, onDeleteItem }) {
 					index={i}
 					key={i}
 					onDeleteItem={onDeleteItem}
+					onCheck={onCheck}
 				/>
 			))}
 
-			<InfoPanel />
+			<InfoPanel todoArr={todoArr} />
 		</div>
 	);
 }
 
-function TodoItem({ todoItem, onDeleteItem, index, handleClick }) {
-	const [select, setSelect] = useState(false);
-	// const [selectArr, setSelectArr] = useState([]);
-	function handleCheck() {
-		setSelect(select => !select);
-		
-	}
-
+function TodoItem({ todoItem, onDeleteItem, index, handleClick, onCheck }) {
 	return (
 		<div className='todo-item'>
-			{/* <button className='select-button'></button> */}
 			<Button
 				secondButtonClass={
-					select ? "select-button selected-button" : "select-button"
+					todoItem.select ? "select-button selected-button" : "select-button"
 				}
-				value={select}
-				handleClick={handleCheck}
+				value={todoItem.select}
+				handleClick={() => onCheck(index)}
 			/>
 			<div className='todo-item-delete'>
-				<p className={select ? "todo-name selected-text" : "todo-name"}>
-					{todoItem}
+				<p
+					className={todoItem.select ? "todo-name selected-text" : "todo-name"}>
+					{todoItem.todo}
 				</p>
-				{/* <button className='delete-button'></button> */}
 				<Button
 					secondButtonClass={"delete-button"}
 					handleClick={() => onDeleteItem(index)}
@@ -113,10 +123,12 @@ function TodoItem({ todoItem, onDeleteItem, index, handleClick }) {
 	);
 }
 
-function InfoPanel() {
+function InfoPanel({ todoArr }) {
+	const itemsChecked = todoArr.filter(item => item.select).length;
+	const itemsLeft = todoArr.length - itemsChecked;
 	return (
 		<div className='todo-item info-panel'>
-			<p>5 items left</p>
+			<p>{itemsLeft} items left</p>
 			<p>clear complited</p>
 		</div>
 	);
