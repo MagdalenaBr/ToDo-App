@@ -4,6 +4,14 @@ export default function App() {
 	const [todo, setTodo] = useState("");
 	const [todoArr, setTodoArr] = useState([]);
 
+	const [sortedBy, setSortedBy] = useState("allTodos");
+	let sortedArr;
+	if (sortedBy === "allTodos") sortedArr = todoArr;
+	if (sortedBy === "activeTodo")
+		sortedArr = todoArr.filter(todo => !todo.select);
+	if (sortedBy === "complitedTodo")
+		sortedArr = todoArr.filter(todo => todo.select);
+
 	function handleTodoArr(item) {
 		setTodoArr(todoArr => [item, ...todoArr]);
 	}
@@ -43,8 +51,15 @@ export default function App() {
 				todoArr={todoArr}
 				onDeleteItem={handleDeleteItem}
 				onCheck={handleCheck}
+				setTodoArr={setTodoArr}
+				sortedArr={sortedArr}
 			/>
-			<SortPanel />
+			<SortPanel
+				todoArr={todoArr}
+				setTodoArr={setTodoArr}
+				sortedBy={sortedBy}
+				setSortedBy={setSortedBy}
+			/>
 		</div>
 	);
 }
@@ -59,11 +74,11 @@ function Logo() {
 		</div>
 	);
 }
-function Button({ secondButtonClass, handleClick }) {
+function Button({ secondButtonClass, handleClick, children }) {
 	return (
-		<button
-			className={`button ${secondButtonClass}`}
-			onClick={handleClick}></button>
+		<button className={`button ${secondButtonClass}`} onClick={handleClick}>
+			{children}
+		</button>
 	);
 }
 
@@ -81,10 +96,10 @@ function AddNewToDo({ todo, onSetTodo, handleAddTodo }) {
 	);
 }
 
-function ToDoList({ todoArr, onDeleteItem, onCheck }) {
+function ToDoList({ todoArr, onDeleteItem, onCheck, setTodoArr, sortedArr }) {
 	return (
 		<div className='todo-container'>
-			{todoArr.map((todoItem, i) => (
+			{sortedArr.map((todoItem, i) => (
 				<TodoItem
 					todoItem={todoItem}
 					index={i}
@@ -94,7 +109,7 @@ function ToDoList({ todoArr, onDeleteItem, onCheck }) {
 				/>
 			))}
 
-			<InfoPanel todoArr={todoArr} />
+			<InfoPanel todoArr={todoArr} setTodoArr={setTodoArr} />
 		</div>
 	);
 }
@@ -123,23 +138,57 @@ function TodoItem({ todoItem, onDeleteItem, index, handleClick, onCheck }) {
 	);
 }
 
-function InfoPanel({ todoArr }) {
+function InfoPanel({ todoArr, setTodoArr }) {
 	const itemsChecked = todoArr.filter(item => item.select).length;
 	const itemsLeft = todoArr.length - itemsChecked;
+
+	function clearComplited() {
+		setTodoArr(todoArr => todoArr.filter(todo => !todo.select));
+	}
 	return (
 		<div className='todo-item info-panel'>
 			<p>{itemsLeft} items left</p>
-			<p>clear complited</p>
+			{/* <p>clear complited</p>
+			 */}
+			<Button secondButtonClass={"stats-button"} handleClick={clearComplited}>
+				Clear coplited
+			</Button>
 		</div>
 	);
 }
 
-function SortPanel() {
+function SortPanel({ todoArr, sortedBy, setSortedBy }) {
+	// const [sortedBy, setSortedBy] = useState("allTodos");
+	// let sortedArr;
+	// if (sortedBy === "allTodos") sortedArr = todoArr;
+	// if (sortedBy === "activeTodo")
+	// 	sortedArr = todoArr.filter(todo => !todo.select);
+	// if (sortedBy === "complitedTodo")
+	// 	sortedArr = todoArr.filter(todo => todo.select);
+
+	// if
+	// const activeTodo = todoArr.filter(todo => !todo.select)
+	// function displayAllTodo() {
+	// 	setSortedBy(todoArr);
+	// }
+	// function displayActiveToDo() {
+	// 	setSortedBy(todoArr.filter(todo => !todo.select));
+	// }
+	// function displayComplitedToDo() {
+	// 	setSortedBy(todoArr.filter(todo => todo.select));
+	// }
+
 	return (
-		<div className='sort-container'>
-			<p>All</p>
-			<p>Active</p>
-			<p>Completed</p>
-		</div>
+		<select
+			value={sortedBy}
+			className='sort-container'
+			onChange={e => {
+				setSortedBy(e.target.value);
+				console.log(e.target.value);
+			}}>
+			<option value='allTodos'>All</option>
+			<option value='activeTodo'>Active</option>
+			<option value="complitedTodo">Complited</option>
+		</select>
 	);
 }
