@@ -1,4 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+:root {
+	--background-color: hsl(235, 21%, 11%);
+	--text-color: hsl(233, 14%, 35%);
+	--todo-background-color: hsl(235, 24%, 19%);
+	--accent-color: hsl(234, 39%, 85%);
+}
+
+/* .light-mode {
+	--background-color:  hsl(236, 33%, 92%);
+	--todo-background-color: hsl(236, 33%, 92%);
+	--accent-color: hsl(235, 19%, 35%);
+} */
 
 * {
 	margin: 0;
@@ -12,7 +24,7 @@ body {
 	background-image: url(./images/bg-mobile-dark.jpg);
 	background-repeat: no-repeat;
 	background-size: auto 14rem;
-	background-color: hsl(235, 21%, 11%);
+	background-color: var(--background-color);
 }
 main {
 	padding-top: 1rem;
@@ -36,20 +48,20 @@ main {
 	height: 3.3rem;
 	padding-inline: 1rem;
 	background-color: hsl(235, 24%, 19%);
-	color: hsl(233, 14%, 35%);
+	color: var(--text-color);
 }
 
 .add-new-todo-button,
 .select-button {
 	display: inline-block;
-	border: 1px solid hsl(233, 14%, 35%);
+	border: 1px solid var(--text-color);
 	border-radius: 50%;
 }
 .stats-button,
 .sort-button {
 	width: auto;
 	border: none;
-	color: hsl(233, 14%, 35%);
+	color: var(--text-color);
 }
 
 /* LOGO */
@@ -72,13 +84,13 @@ input {
 	width: 100%;
 }
 .todo-item {
-	color: hsl(234, 39%, 85%);
+	color: var(--accent-color);
 }
 .new-todo-input {
 	padding: 0.5rem;
 	border: none;
 	background-color: transparent;
-	color: hsl(234, 39%, 85%);
+	color: var(--accent-color);
 }
 
 /* TO DO LIST */
@@ -88,7 +100,7 @@ input {
 	gap: 1px;
 	margin-top: 1rem;
 	border-radius: 5px;
-	background-color: hsl(233, 14%, 35%);
+	background-color: var(--text-color);
 }
 
 .todo-name {
@@ -124,9 +136,11 @@ input {
 	font-weight: 700;
 }
 .delete-button {
+	height: 1rem;
+	width: 1rem;
 	background-image: url(./images/icon-cross.svg);
 	border: none;
-	color: hsl(233, 14%, 35%);
+	color: var(--text-color);
 }
 
 .sort-container {

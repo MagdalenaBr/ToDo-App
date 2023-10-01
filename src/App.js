@@ -69,7 +69,7 @@ function Logo() {
 		<div className='logo-container'>
 			<h1>TODO</h1>
 			<span>
-				<img src={sun} alt='Change to light theme' />
+				<img clas src={sun} alt='Change to light theme' />
 			</span>
 		</div>
 	);
