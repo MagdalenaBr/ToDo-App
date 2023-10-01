@@ -1,23 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: "Josefin Sans", sans-serif;
 }
 body {
+	width: 100vw;
+	padding: 1.55rem;
 	background-image: url(./images/bg-mobile-dark.jpg);
 	background-repeat: no-repeat;
+	background-size: auto 14rem;
 	background-color: hsl(235, 21%, 11%);
-	padding: 1.55rem;
+}
+main {
+	padding-top: 1rem;
+}
+.button {
+	height: 1.2rem;
+	width: 1.2rem;
+	font-size: 1rem;
+	font-weight: 700;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.new-todo,
+.todo-item,
+.sort-container,
+.info-panel {
+	display: flex;
+	align-items: center;
+	gap: 0.2rem;
+	height: 3.3rem;
+	padding-inline: 1rem;
+	background-color: hsl(235, 24%, 19%);
+	color: hsl(233, 14%, 35%);
+}
+
+.add-new-todo-button,
+.select-button {
+	display: inline-block;
+	border: 1px solid hsl(233, 14%, 35%);
+	border-radius: 50%;
+}
+.stats-button,
+.sort-button {
+	width: auto;
+	border: none;
+	color: hsl(233, 14%, 35%);
 }
 
 /* LOGO */
 .logo-container {
-	color: hsl(236, 33%, 92%);
-	/* width: 95%; */
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding-block: 1rem 2rem;
+	padding-block: 1rem 2.5rem;
+	color: hsl(236, 33%, 92%);
 }
 h1 {
 	letter-spacing: 10px;
@@ -27,33 +68,27 @@ h1 {
 .new-todo {
 	border-radius: 5px;
 }
-.new-todo,
-.todo-item,
-.sort-container {
-	background-color: hsl(235, 24%, 19%);
-	height: 3rem;
-	display: flex;
-	align-items: center;
-	gap: 0.2rem;
-	padding-inline: 1rem;
-	color: hsl(233, 14%, 35%);
+input {
+	width: 100%;
 }
-
-.new-todo-input {
-	background-color: transparent;
-	border: none;
-	padding: 0.5rem;
+.todo-item {
 	color: hsl(234, 39%, 85%);
 }
+.new-todo-input {
+	padding: 0.5rem;
+	border: none;
+	background-color: transparent;
+	color: hsl(234, 39%, 85%);
+}
+
+/* TO DO LIST */
 .todo-container {
-	margin-top: 1rem;
 	display: flex;
 	flex-direction: column;
 	gap: 1px;
-	background-color: hsl(233, 14%, 35%);
-}
-.todo-container {
+	margin-top: 1rem;
 	border-radius: 5px;
+	background-color: hsl(233, 14%, 35%);
 }
 
 .todo-name {
@@ -68,16 +103,14 @@ h1 {
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
-
-.info-panel {
-	justify-content: space-between;
+.selected-button {
+	background: url("./images/icon-check.svg"),
+		linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+	background-position: center;
+	background-repeat: no-repeat;
 }
-
-.sort-container {
-	margin-top: 1rem;
-	justify-content: center;
-	gap: 1rem;
-	border-radius: 5px;
+.selected-text {
+	text-decoration: line-through;
 }
 
 .todo-item-delete {
@@ -86,51 +119,51 @@ h1 {
 	width: 100%;
 	padding-left: 0.5rem;
 }
-
-.button {
-	height: 1.2rem;
-	width: 1.2rem;
-	background-color: transparent;
+.info-panel {
+	justify-content: space-between;
+	font-weight: 700;
 }
-
-/* .delete-button,
-.select-button {
-	background-color: transparent;
-} */
-
 .delete-button {
 	background-image: url(./images/icon-cross.svg);
 	border: none;
-	/* width: 1rem;
-	height: 1rem; */
 	color: hsl(233, 14%, 35%);
 }
-.add-new-todo-button,
-.select-button {
-	display: inline-block;
-	/* height: 1.2rem;
-	width: 1.2rem; */
-	border: 1px solid hsl(233, 14%, 35%);
-	border-radius: 50%;
-}
-.selected-button {
-	background: url("./images/icon-check.svg"),
-		linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-	background-position: center;
-	background-repeat: no-repeat;
-	/* background-repeat: no-repeat; */
-	/* background-image: url('./images/icon-check.svg'); */
-}
-.selected-text {
-	text-decoration: line-through;
+
+.sort-container {
+	justify-content: center;
+	gap: 1rem;
+	margin-top: 1rem;
+	border-radius: 5px;
 }
 
-/* .add-new-todo-button {
-	background-color: transparent;
-} */
+.sort-button {
+	font-size: 1rem;
+	font-weight: 700;
+}
 
-.stats-button {
-	width: auto;
-	border: none;
-	color: hsl(233, 14%, 35%);
+.sort-button:active,
+.sort-button:focus {
+	color: hsl(220, 98%, 61%);
+}
+
+@media (min-width: 420px) {
+	body {
+		background-size: contain;
+	}
+}
+@media (min-width: 646px) {
+	body {
+		background-image: url(./images/bg-desktop-dark.jpg);
+		background-size: auto 14rem;
+	}
+	main {
+		width: 38rem;
+		margin: 0 auto;
+	}
+}
+
+@media (min-width: 690px) {
+	body {
+		background-size: 100vw 35vh;
+	}
 }
